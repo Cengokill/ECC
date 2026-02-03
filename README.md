@@ -2,7 +2,7 @@
 
 Programme de cryptographie basé sur les courbes elliptiques (ECC) en ligne de commande, permettant de générer des clés, chiffrer et déchiffrer des messages de manière sécurisée.
 
-## 📋 Description
+## Description
 
 monECC est une implémentation en C# d'un système de cryptographie à courbes elliptiques utilisant :
 - **Courbe elliptique** : y² = x³ + 35x + 3 (mod 101)
@@ -10,7 +10,7 @@ monECC est une implémentation en C# d'un système de cryptographie à courbes e
 - **Chiffrement** : AES en mode CBC avec clé dérivée par SHA256
 - **Échange de clés** : Basé sur le principe de Diffie-Hellman sur courbe elliptique (ECDH)
 
-## 🚀 Démarrage rapide
+## Démarrage rapide
 
 ### Compilation et exécution
 
@@ -44,7 +44,7 @@ help
 exit
 ```
 
-## 📚 Commandes disponibles
+## Commandes disponibles
 
 ### `keygen` - Génération de clés
 
@@ -125,7 +125,7 @@ test -v        # Test détaillé avec toutes les informations
 
 Affiche le manuel d'utilisation complet avec tous les détails sur les commandes et options.
 
-## 🔐 Fonctionnement technique
+## Fonctionnement technique
 
 ### Génération de clés (keygen)
 
@@ -153,7 +153,7 @@ Affiche le manuel d'utilisation complet avec tous les détails sur les commandes
 5. Déchiffre le message avec AES en mode CBC
 6. Retourne le texte en clair
 
-## 🧪 Tests
+## Tests
 
 Le projet inclut une suite complète de tests automatisés qui valident toutes les fonctionnalités.
 
@@ -171,7 +171,7 @@ Le script :
 
 **Pour plus de détails sur les tests, consultez [TEST_README.md](TEST_README.md)**
 
-## 📁 Structure du projet
+## Structure du projet
 
 ```
 ECC/
@@ -203,7 +203,7 @@ ECC/
 ---end monECC key---
 ```
 
-## 🔍 Exemple complet
+## Exemple complet
 
 ```bash
 # Démarrer le programme
@@ -224,30 +224,30 @@ monECC> decrypt bob.priv -i message_pour_bob.txt
 # Résultat : "Message secret pour Bob"
 ```
 
-## ⚙️ Prérequis
+## Prérequis
 
 - .NET SDK 6.0 ou supérieur
 - Bash (pour l'exécution des tests automatisés)
 
-## 🎯 Fonctionnalités
+## Fonctionnalités
 
-- ✅ Génération de paires de clés ECC
-- ✅ Chiffrement/déchiffrement de messages
-- ✅ Support des fichiers d'entrée/sortie
-- ✅ Répertoires personnalisables
-- ✅ Mode interactif avec historique de commandes
-- ✅ Validation automatique du système
-- ✅ Tests automatisés complets
-- ✅ Génération de rapports de tests
+- Génération de paires de clés ECC
+- Chiffrement/déchiffrement de messages
+- Support des fichiers d'entrée/sortie
+- Répertoires personnalisables
+- Mode interactif avec historique de commandes
+- Validation automatique du système
+- Tests automatisés complets
+- Génération de rapports de tests
 
-## 📖 Références
+## Références
 
 Pour plus d'informations :
 - [TP-ECC.md](TP-ECC.md) : Spécifications techniques détaillées
 - [TEST_README.md](TEST_README.md) : Guide complet des tests
 - `help` dans le programme : Manuel d'utilisation intégré
 
-## 🛡️ Sécurité
+## Sécurité
 
 **Note importante** : Cette implémentation est à vocation éducative. Pour une utilisation en production, il est recommandé d'utiliser des bibliothèques cryptographiques établies et auditées.
 

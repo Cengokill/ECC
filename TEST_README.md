@@ -57,18 +57,18 @@ e script génère automatiquement un rapport détaillé au format Markdown à la
 
 ### Tests effectués par le script
 
-1. ✅ Génération de clés (basique, avec options)
-2. ✅ Commande `test` (basique et verbose)
-3. ✅ Chiffrement (basique, avec fichiers)
-4. ✅ Déchiffrement (depuis fichiers)
-5. ✅ Cycle complet (génération → chiffrement → déchiffrement)
-6. ✅ Commande `help`
+1. Génération de clés (basique, avec options)
+2. Commande `test` (basique et verbose)
+3. Chiffrement (basique, avec fichiers)
+4. Déchiffrement (depuis fichiers)
+5. Cycle complet (génération → chiffrement → déchiffrement)
+6. Commande `help`
 
 ### Résultat attendu
 
 Le script affiche :
-- ✓ pour chaque test réussi
-- ✗ pour chaque test échoué
+- Un indicateur pour chaque test réussi
+- Un indicateur pour chaque test échoué
 - Un résumé final avec le nombre de tests passés/échoués
 - Un message confirmant la génération du rapport
 

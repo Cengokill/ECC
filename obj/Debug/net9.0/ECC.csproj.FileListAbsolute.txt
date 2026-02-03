@@ -1,0 +1,14 @@
+/Users/user/Documents/ECC/bin/Debug/net9.0/ECC
+/Users/user/Documents/ECC/bin/Debug/net9.0/ECC.deps.json
+/Users/user/Documents/ECC/bin/Debug/net9.0/ECC.runtimeconfig.json
+/Users/user/Documents/ECC/bin/Debug/net9.0/ECC.dll
+/Users/user/Documents/ECC/bin/Debug/net9.0/ECC.pdb
+/Users/user/Documents/ECC/obj/Debug/net9.0/ECC.GeneratedMSBuildEditorConfig.editorconfig
+/Users/user/Documents/ECC/obj/Debug/net9.0/ECC.AssemblyInfoInputs.cache
+/Users/user/Documents/ECC/obj/Debug/net9.0/ECC.AssemblyInfo.cs
+/Users/user/Documents/ECC/obj/Debug/net9.0/ECC.csproj.CoreCompileInputs.cache
+/Users/user/Documents/ECC/obj/Debug/net9.0/ECC.dll
+/Users/user/Documents/ECC/obj/Debug/net9.0/refint/ECC.dll
+/Users/user/Documents/ECC/obj/Debug/net9.0/ECC.pdb
+/Users/user/Documents/ECC/obj/Debug/net9.0/ECC.genruntimeconfig.cache
+/Users/user/Documents/ECC/obj/Debug/net9.0/ref/ECC.dll

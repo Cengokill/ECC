@@ -8,7 +8,7 @@ monECC est une implémentation en C# d'un système de cryptographie à courbes e
 - **Courbe elliptique** : y² = x³ + 35x + 3 (mod 101)
 - **Point générateur** : P = (2, 9) (J'ai gardé le point (2,9))
 - **Chiffrement** : AES en mode CBC avec clé dérivée par SHA256
-- **Échange de clés** : Basé sur le principe de Diffie-Hellman sur courbe elliptique (ECDH)
+- **Échange de clés** : Basé sur une courbe elliptique
 
 ## Démarrage rapide
 
@@ -158,7 +158,8 @@ Affiche le manuel d'utilisation complet avec tous les détails sur les commandes
 Le projet inclut une suite complète de tests automatisés qui valident toutes les fonctionnalités.
 
 ### Exécution des tests automatisés
-
+Pour les utilisateurs Windows : pas de panique ! Vous pourrez exécuter tous les tests un par un vous-même, ou bien installer Git Bash ou installer WSL !
+Bon courage !
 ```bash
 ./run_tests.sh
 ```
@@ -168,6 +169,7 @@ Le script :
 - Affiche les résultats en temps réel avec code couleur
 - Génère automatiquement un rapport détaillé au format Markdown
 - Valide l'intégrité des opérations de chiffrement/déchiffrement
+- Sauf si vous êtes sur Windows (voir plus haut)
 
 **Pour plus de détails sur les tests, consultez [TEST_README.md](TEST_README.md)**
 
@@ -181,7 +183,7 @@ ECC/
 ├── TP-ECC.md              # Spécifications du projet
 ├── README.md              # Ce fichier
 ├── TEST_README.md         # Documentation des tests
-├── run_tests.sh           # Script de tests automatisés
+├── run_tests.sh           # Script de tests automatisés (pas pour Windows (voir plus haut))
 └── RAPPORT_TESTS_*.md     # Rapports de tests générés
 ```
 
@@ -227,7 +229,7 @@ monECC> decrypt bob.priv -i message_pour_bob.txt
 ## Prérequis
 
 - .NET SDK 6.0 ou supérieur
-- Bash (pour l'exécution des tests automatisés)
+- Bash (pour l'exécution des tests automatisés (pas pour Windows, voir plus haut)
 
 ## Fonctionnalités
 
@@ -237,7 +239,7 @@ monECC> decrypt bob.priv -i message_pour_bob.txt
 - Répertoires personnalisables
 - Mode interactif avec historique de commandes
 - Validation automatique du système
-- Tests automatisés complets
+- Tests automatisés complets (... :-))
 - Génération de rapports de tests
 
 ## Références
@@ -246,14 +248,3 @@ Pour plus d'informations :
 - [TP-ECC.md](TP-ECC.md) : Spécifications techniques détaillées
 - [TEST_README.md](TEST_README.md) : Guide complet des tests
 - `help` dans le programme : Manuel d'utilisation intégré
-
-## Sécurité
-
-**Note importante** : Cette implémentation est à vocation éducative. Pour une utilisation en production, il est recommandé d'utiliser des bibliothèques cryptographiques établies et auditées.
-
-Points de sécurité :
-- Utilisation d'une courbe elliptique sur un corps fini petit (F₁₀₁) - suffisant pour la démonstration
-- Algorithme Double-and-Add pour l'efficacité
-- SHA256 pour la dérivation de clé
-- AES-CBC pour le chiffrement symétrique
-- Point éphémère pour chaque chiffrement

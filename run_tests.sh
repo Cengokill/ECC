@@ -42,18 +42,18 @@ run_test() {
     
     # Vérifier si la sortie contient "Erreur"
     if echo "$output" | grep -q "Erreur"; then
-        echo -e "${RED}✗ ÉCHOUÉ${NC}"
+        echo -e "${RED}ÉCHOUÉ${NC}"
         echo "  Commande: $command"
         echo "  Sortie: $output"
         ((TESTS_FAILED++))
-        TEST_RESULTS+=("❌ ÉCHOUÉ")
+        TEST_RESULTS+=("ÉCHOUÉ")
         TEST_NAMES+=("$test_name")
         TEST_DESCRIPTIONS+=("$description")
         return 1
     else
-        echo -e "${GREEN}✓ PASSÉ${NC}"
+        echo -e "${GREEN}PASSÉ${NC}"
         ((TESTS_PASSED++))
-        TEST_RESULTS+=("✅ PASSÉ")
+        TEST_RESULTS+=("PASSÉ")
         TEST_NAMES+=("$test_name")
         TEST_DESCRIPTIONS+=("$description")
         return 0
@@ -86,7 +86,7 @@ if [ -f "monECC.pub" ]; then
     run_test "crypt basique" "crypt monECC.pub \"Test message\"" "Chiffrement avec sortie console"
     run_test "crypt avec fichier" "crypt monECC.pub \"Test\" -o test_crypt.txt" "Chiffrement avec \`-o test_crypt.txt\`"
 else
-    echo -e "${YELLOW}⚠ monECC.pub non trouvé, génération d'une clé...${NC}"
+    echo -e "${YELLOW}monECC.pub non trouvé, génération d'une clé...${NC}"
     echo -e "keygen\nexit" | dotnet run > /dev/null 2>&1
     run_test "crypt basique" "crypt monECC.pub \"Test message\"" "Chiffrement avec sortie console"
 fi
@@ -97,7 +97,7 @@ echo "=== Test 4: Déchiffrement ==="
 if [ -f "monECC.priv" ] && [ -f "test_crypt.txt" ]; then
     run_test "decrypt depuis fichier" "decrypt monECC.priv -i test_crypt.txt" "Déchiffrement depuis \`-i test_crypt.txt\`"
 else
-    echo -e "${YELLOW}⚠ Fichiers nécessaires non trouvés, test ignoré${NC}"
+    echo -e "${YELLOW}Fichiers nécessaires non trouvés, test ignoré${NC}"
 fi
 echo ""
 
@@ -107,20 +107,20 @@ echo -e "keygen -f cycle -d ./test_cycle/\nexit" | dotnet run > /dev/null 2>&1
 if [ -f "./test_cycle/cycle.pub" ]; then
     echo -e "crypt ./test_cycle/cycle.pub \"Message de test\" -o ./test_cycle/chiffre.txt\nexit" | dotnet run > /dev/null 2>&1
     if [ -f "./test_cycle/chiffre.txt" ]; then
-        run_test "decrypt cycle complet" "decrypt ./test_cycle/cycle.priv -i ./test_cycle/chiffre.txt -o ./test_cycle/dechiffre.txt" "Génération → Chiffrement → Déchiffrement"
+        run_test "decrypt cycle complet" "decrypt ./test_cycle/cycle.priv -i ./test_cycle/chiffre.txt -o ./test_cycle/dechiffre.txt" "Génération -> Chiffrement -> Déchiffrement"
         
         # Vérifier que le message déchiffré correspond
         if [ -f "./test_cycle/dechiffre.txt" ]; then
             content=$(cat ./test_cycle/dechiffre.txt)
             if [[ "$content" == *"Message de test"* ]]; then
-                echo -e "${GREEN}✓ Vérification: Message déchiffré correct${NC}"
-                TEST_RESULTS+=("✅ PASSÉ")
+                echo -e "${GREEN}Vérification: Message déchiffré correct${NC}"
+                TEST_RESULTS+=("PASSÉ")
                 TEST_NAMES+=("Vérification intégrité")
                 TEST_DESCRIPTIONS+=("Message déchiffré = message original")
                 ((TESTS_PASSED++))
             else
-                echo -e "${RED}✗ Vérification: Message déchiffré incorrect${NC}"
-                TEST_RESULTS+=("❌ ÉCHOUÉ")
+                echo -e "${RED}Vérification: Message déchiffré incorrect${NC}"
+                TEST_RESULTS+=("ÉCHOUÉ")
                 TEST_NAMES+=("Vérification intégrité")
                 TEST_DESCRIPTIONS+=("Message déchiffré = message original")
                 ((TESTS_FAILED++))
@@ -149,11 +149,11 @@ echo "Total: $((TESTS_PASSED + TESTS_FAILED))"
 echo ""
 
 if [ $TESTS_FAILED -eq 0 ]; then
-    echo -e "${GREEN}✓ Tous les tests sont passés !${NC}"
-    TEST_STATUS="✅ **Tous les tests sont passés avec succès**"
+    echo -e "${GREEN}Tous les tests sont passés !${NC}"
+    TEST_STATUS="**Tous les tests sont passés avec succès**"
 else
-    echo -e "${RED}✗ Certains tests ont échoué${NC}"
-    TEST_STATUS="❌ **Certains tests ont échoué**"
+    echo -e "${RED}Certains tests ont échoué${NC}"
+    TEST_STATUS="**Certains tests ont échoué**"
 fi
 
 # Générer le rapport Markdown
@@ -266,21 +266,21 @@ cat >> "$REPORT_FILE" <<'EOF'
 
 ## Fonctionnalités testées
 
-### ✅ Switch `-d` (Répertoire de sortie)
+### Switch `-d` (Répertoire de sortie)
 - Fonctionne avec `keygen`
 - Fonctionne avec `crypt` (via `-o`)
 - Fonctionne avec `decrypt` (via `-o`)
 - Crée automatiquement les répertoires manquants
 - Gère correctement les chemins relatifs
 
-### ✅ Commande `test`
+### Commande `test`
 - Valide automatiquement le système
 - Mode basique avec résumé
 - Mode verbose avec détails complets
 - Génère et nettoie les fichiers temporaires
 - Vérifie l'intégrité des opérations
 
-### ✅ Compatibilité ascendante
+### Compatibilité ascendante
 - Toutes les commandes existantes fonctionnent
 - Les switchs existants (-f, -s, -i, -o) fonctionnent toujours
 - Aucune régression détectée
@@ -299,20 +299,20 @@ cat >> "$REPORT_FILE" <<'EOF'
 ### Répertoire `test_cycle/`
 - `cycle.pub` et `cycle.priv` (clés du cycle complet)
 - `chiffre.txt` (message chiffré)
-- `dechiffre.txt` (message déchiffré - contenu vérifié ✓)
+- `dechiffre.txt` (message déchiffré - contenu vérifié)
 
 ## Vérifications effectuées
 
-1. ✅ Génération de clés dans différents répertoires
-2. ✅ Génération avec différentes tailles de clés privées
-3. ✅ Chiffrement et déchiffrement basiques
-4. ✅ Utilisation de fichiers d'entrée/sortie
-5. ✅ Création automatique de répertoires
-6. ✅ Intégrité des messages (chiffrement → déchiffrement)
-7. ✅ Validation automatique du système (commande test)
-8. ✅ Mode verbose de la commande test
-9. ✅ Affichage du manuel
-10. ✅ Gestion des erreurs
+1. Génération de clés dans différents répertoires
+2. Génération avec différentes tailles de clés privées
+3. Chiffrement et déchiffrement basiques
+4. Utilisation de fichiers d'entrée/sortie
+5. Création automatique de répertoires
+6. Intégrité des messages (chiffrement -> déchiffrement)
+7. Validation automatique du système (commande test)
+8. Mode verbose de la commande test
+9. Affichage du manuel
+10. Gestion des erreurs
 
 ## Conclusion
 
@@ -320,7 +320,7 @@ EOF
 
 if [ $TESTS_FAILED -eq 0 ]; then
     cat >> "$REPORT_FILE" <<'EOF'
-**✅ Le programme monECC fonctionne parfaitement**
+**Le programme monECC fonctionne parfaitement**
 
 Toutes les fonctionnalités ont été testées avec succès :
 - Les nouvelles features (switch `-d` et commande `test`) fonctionnent correctement
@@ -330,13 +330,13 @@ Toutes les fonctionnalités ont été testées avec succès :
 
 ## Recommandations
 
-1. ✅ Le script `run_tests.sh` est prêt pour une utilisation en production
-2. ✅ Les fichiers de test peuvent être utilisés pour les tests de non-régression
-3. ✅ Le programme est prêt à être utilisé
+1. Le script `run_tests.sh` est prêt pour une utilisation en production
+2. Les fichiers de test peuvent être utilisés pour les tests de non-régression
+3. Le programme est prêt à être utilisé
 EOF
 else
     cat >> "$REPORT_FILE" <<EOF
-**❌ Des corrections sont nécessaires**
+**Des corrections sont nécessaires**
 
 $TESTS_FAILED test(s) ont échoué et doivent être corrigés :
 EOF
@@ -362,7 +362,7 @@ cd /Users/user/Documents/ECC
 **Note:** Les tests ont été exécutés le $START_DATE (durée: ${DURATION}s)
 EOF
 
-echo -e "${GREEN}✓ Rapport généré: $REPORT_FILE${NC}"
+echo -e "${GREEN}Rapport généré: $REPORT_FILE${NC}"
 echo ""
 
 if [ $TESTS_FAILED -eq 0 ]; then

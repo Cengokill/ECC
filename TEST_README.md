@@ -4,40 +4,21 @@ Ce dossier contient des fichiers pour tester manuellement et automatiquement le 
 
 ## Fichiers de test
 
-- **`test_commands.txt`** : Liste complète de commandes à tester manuellement
 - **`run_tests.sh`** : Script automatisé pour exécuter les tests essentiels
 - **`TEST_README.md`** : Ce fichier
 
 ## Méthode 1 : Tests manuels
 
-### Utilisation du fichier `test_commands.txt`
+### Comment exécuter les tests manuels
 
 1. Lancez le programme en mode interactif :
-   ```bash
-   dotnet run
-   ```
-
-2. Copiez-collez les commandes du fichier `test_commands.txt` une par une dans le terminal
-
-3. Vérifiez les résultats de chaque commande
-
-### Exemples de commandes à tester
 
 ```bash
-# Génération de clés
-keygen
-keygen -f mescles -s 5000 -d ./keys/
-
-# Chiffrement
-crypt monECC.pub "Message secret" -o message.txt -d ./encrypted/
-
-# Déchiffrement
-decrypt monECC.priv -i message.txt -o resultat.txt -d ./decrypted/
-
-# Test de validation
-test
-test -v
+dotnet run
 ```
+
+2. Copiez-collez les commandes ci-dessous une par une dans le terminal.
+3. Vérifiez les résultats (création de fichiers, sorties console, messages d'erreur).
 
 ## Méthode 2 : Tests automatisés
 
@@ -97,6 +78,7 @@ Vérifiez que les anciennes commandes fonctionnent toujours :
 keygen
 crypt monECC.pub "test"
 decrypt monECC.priv "<texte_chiffré>"
+help
 ```
 
 ### 2. Test du switch `-d`
@@ -109,7 +91,65 @@ keygen -f testdir -d ./test_output/
 ls -la ./test_output/
 ```
 
-### 3. Test de la commande `test`
+### 3. Tests de base : génération de clés
+
+```bash
+# Génération de clés par défaut
+keygen
+
+# Génération avec nom personnalisé
+keygen -f mescles
+
+# Génération avec taille personnalisée
+keygen -f testkeys -s 5000
+
+# Génération dans un répertoire spécifique
+keygen -f testdir -d ./test_output/
+
+# Génération avec tous les paramètres
+keygen -f complet -s 2000 -d ./keys/
+```
+
+### 4. Tests de chiffrement
+
+```bash
+# Chiffrement basique (utilise monECC.pub généré précédemment)
+crypt monECC.pub "Bonjour, ceci est un test"
+
+# Chiffrement avec sortie dans un fichier
+crypt monECC.pub "Message secret" -o message_chiffre.txt
+
+# Chiffrement depuis un fichier d'entrée
+echo "Message depuis fichier" > input.txt
+crypt monECC.pub -i input.txt -o output.txt
+
+# Chiffrement avec répertoire de sortie
+crypt monECC.pub "Test avec répertoire" -o test.txt -d ./encrypted/
+
+# Chiffrement complet (fichier entrée + répertoire sortie)
+crypt monECC.pub -i input.txt -o result.txt -d ./encrypted/
+```
+
+### 5. Tests de déchiffrement
+
+```bash
+# Déchiffrement basique (remplacez <texte_chiffré> par le résultat d'un crypt affiché en console)
+# decrypt monECC.priv "<texte_chiffré>"
+
+# Déchiffrement depuis un fichier
+decrypt monECC.priv -i message_chiffre.txt
+
+# Déchiffrement avec sortie dans un fichier
+decrypt monECC.priv -i message_chiffre.txt -o message_dechiffre.txt
+
+# Déchiffrement avec répertoire de sortie
+decrypt monECC.priv -i message_chiffre.txt -o result.txt -d ./decrypted/
+
+# Déchiffrement complet
+decrypt monECC.priv -i ./encrypted/test.txt -o final.txt -d ./decrypted/
+```
+
+### 6. Test de la commande `test`
 
 ```bash
 # Test basique
@@ -117,26 +157,29 @@ test
 
 # Test en mode verbose
 test -v
+
+# Alias
+test --verbose
 ```
 
-### 4. Test d'un cycle complet
+### 7. Test d'un cycle complet
 
 ```bash
 # 1. Générer des clés
 keygen -f cycle_test -d ./test_cycle/
 
 # 2. Chiffrer un message
-crypt ./test_cycle/cycle_test.pub "Message de test" -o ./test_cycle/chiffre.txt
+crypt ./test_cycle/cycle_test.pub "Message de test complet" -o ./test_cycle/chiffre.txt
 
 # 3. Déchiffrer le message
 decrypt ./test_cycle/cycle_test.priv -i ./test_cycle/chiffre.txt -o ./test_cycle/dechiffre.txt
 
 # 4. Vérifier le résultat
 cat ./test_cycle/dechiffre.txt
-# Devrait afficher : "Message de test"
+# Devrait afficher : "Message de test complet"
 ```
 
-### 5. Tests d'erreurs
+### 8. Tests d'erreurs
 
 Vérifiez que les erreurs sont bien gérées :
 
@@ -144,13 +187,36 @@ Vérifiez que les erreurs sont bien gérées :
 # Fichier inexistant
 crypt fichier_inexistant.pub "test"
 
+# Répertoire invalide
+keygen -d /chemin/inexistant/test
+
 # Paramètres manquants
 crypt
 decrypt
+keygen -f
 
 # Taille invalide
 keygen -s 0
 keygen -s -5
+```
+
+### 9. Tests avancés (multi-destinataires)
+
+```bash
+# Génération multiple de clés dans différents répertoires
+keygen -f alice -d ./users/alice/
+keygen -f bob -d ./users/bob/
+keygen -f charlie -d ./users/charlie/
+
+# Chiffrement pour plusieurs destinataires
+crypt ./users/alice/alice.pub "Message pour Alice" -o alice_msg.txt -d ./messages/
+crypt ./users/bob/bob.pub "Message pour Bob" -o bob_msg.txt -d ./messages/
+crypt ./users/charlie/charlie.pub "Message pour Charlie" -o charlie_msg.txt -d ./messages/
+
+# Déchiffrement par chaque destinataire
+decrypt ./users/alice/alice.priv -i ./messages/alice_msg.txt -o alice_read.txt
+decrypt ./users/bob/bob.priv -i ./messages/bob_msg.txt -o bob_read.txt
+decrypt ./users/charlie/charlie.priv -i ./messages/charlie_msg.txt -o charlie_read.txt
 ```
 
 ## Nettoyage après les tests

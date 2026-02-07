@@ -33,7 +33,7 @@ public class GenerationClef
 
     public void GenererClef(int maxValue = 1000)
     {
-        // Vérifier que le point générateur P est sur la courbe
+        // Vérifie que le point générateur P est sur la courbe
         if (!EstSurCourbe(_p))
         {
             throw new Exception($"Le point générateur P=({_p.x},{_p.y}) n'est pas sur la courbe y²=x³+{_a}x+{_b} (mod {_modulo})");
@@ -44,7 +44,7 @@ public class GenerationClef
         // Calcul de Q = kP
         _Q = DoubleAndAdd(_p, _k);
         
-        // Vérifier que la clé publique générée est sur la courbe
+        // Vérifie que la clé publique générée est sur la courbe
         if (_Q != null && !EstSurCourbe(_Q))
         {
             throw new Exception($"La clé publique générée Q=({_Q.x},{_Q.y}) n'est pas sur la courbe");
@@ -53,10 +53,10 @@ public class GenerationClef
 
     public void CalculerSecret()
     {
-        // La formule pour obtenir le secret partagé S est : S = k * Qb [1]
-        // Ici, _k est la clé privée (entier) et _Q est la clé publique de la cible (Point) [2].
+        // La formule pour obtenir le secret partagé S est : S = k * Qb.
+        // Ici, _k est la clé privée (entier) et _Q est la clé publique de la cible (Point).
         
-        // On utilise l'algorithme DoubleAndAdd pour effectuer cette multiplication sur la courbe [3].
+        // On utilise l'algorithme DoubleAndAdd pour effectuer cette multiplication sur la courbe.
         Point S = DoubleAndAdd(_Q, _k);
 
         // S est maintenant le point secret partagé sur la courbe.
@@ -77,10 +77,10 @@ public class GenerationClef
             Buffer.BlockCopy(bits_x, 0, inputBytes, 0, bits_x.Length);
             Buffer.BlockCopy(bits_y, 0, inputBytes, bits_x.Length, bits_y.Length);
 
-            // 2. Calcul du hash SHA256 pour obtenir un résultat de 32 octets (256 bits) [1].
+            // 2. Calcul du hash SHA256 pour obtenir un résultat de 32 octets (256 bits).
             byte[] hash = sha256.ComputeHash(inputBytes);
 
-            // 3. Conversion du hash en chaîne hexadécimale pour une représentation lisible [1].
+            // 3. Conversion du hash en chaîne hexadécimale pour une représentation lisible.
             StringBuilder sb = new StringBuilder();
             foreach (byte b in hash)
             {

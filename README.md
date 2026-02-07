@@ -175,17 +175,16 @@ Le script :
 
 ```
 ECC/
-├── Program.cs              # Point d'entrée et gestion des commandes
-├── GenerationClef.cs       # Arithmétique des courbes elliptiques
+├── Program.cs             # Point d'entrée et gestion des commandes
+├── GenerationClef.cs      # Arithmétique des courbes elliptiques
 ├── TP-ECC.md              # Spécifications du projet
 ├── README.md              # Ce fichier
 ├── TEST_README.md         # Documentation des tests
-├── test_commands.txt      # Commandes de test manuel
 ├── run_tests.sh           # Script de tests automatisés
 └── RAPPORT_TESTS_*.md     # Rapports de tests générés
 ```
 
-## 📝 Format des fichiers de clés
+## Format des fichiers de clés
 
 ### Clé privée (*.priv)
 

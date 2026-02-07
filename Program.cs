@@ -210,10 +210,12 @@ class Program
         // Sauvegarde la clé publique dans monECC.pub
         // Format avec 3 lignes :
         // ---begin monECC public key---
-        // (x,y)
+        // base64_encode("x;y")
         // ---end monECC key---
         string fichierPub = Path.Combine(repertoireFinal, $"{nomFichier}.pub");
-        string contenuPub = $"---begin monECC public key---\n({generateur._Q.x};{generateur._Q.y})\n---end monECC key---";
+        string qStr = $"{generateur._Q.x};{generateur._Q.y}";
+        string qBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(qStr));
+        string contenuPub = $"---begin monECC public key---\n{qBase64}\n---end monECC key---";
         File.WriteAllText(fichierPub, contenuPub);
         Console.WriteLine($"Clé publique sauvegardée dans : {fichierPub}");
 
@@ -559,19 +561,55 @@ class Program
 
     static Point? ParserClePublique(string cleStr)
     {
+        if (string.IsNullOrWhiteSpace(cleStr))
+            return null;
+
+        // 1) Format attendu par le TP : base64_encode("x;y")
+        string? decoded = TryDecodeBase64Utf8(cleStr.Trim());
+        if (decoded != null)
+        {
+            Point? pDecoded = TryParsePointFromString(decoded);
+            if (pDecoded != null)
+                return pDecoded;
+        }
+
+        // 2) Compatibilité avec l'ancien format (non Base64) : "(x;y)" ou "(x,y)" ou "x;y" / "x,y"
+        return TryParsePointFromString(cleStr);
+    }
+
+    /// <summary>
+    /// Tente de décoder une chaîne Base64 en UTF-8. Retourne null si ce n'est pas du Base64 valide.
+    /// </summary>
+    static string? TryDecodeBase64Utf8(string input)
+    {
         try
         {
-            // Enlever les parenthèses si présentes
-            cleStr = cleStr.Trim().TrimStart('(').TrimEnd(')');
-            
-            // Séparer par la virgule ou le point-virgule (pour compatibilité)
-            string[] parts = cleStr.Split(new char[] { ',', ';' });
+            byte[] bytes = Convert.FromBase64String(input);
+            return Encoding.UTF8.GetString(bytes);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Tente de parser un point à partir de \"x;y\" ou \"x,y\" (avec ou sans parenthèses).
+    /// Retourne null si le format est invalide.
+    /// </summary>
+    static Point? TryParsePointFromString(string input)
+    {
+        try
+        {
+            string s = input.Trim().TrimStart('(').TrimEnd(')');
+
+            // Séparer par la virgule ou le point-virgule (compatibilité)
+            string[] parts = s.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length != 2)
                 return null;
 
             long x = long.Parse(parts[0].Trim());
             long y = long.Parse(parts[1].Trim());
-            
             return new Point(x, y);
         }
         catch
@@ -638,8 +676,10 @@ class Program
             // Sauvegarder les clés dans le répertoire temporaire
             string fichierPubTest = Path.Combine(repertoireTest, $"{nomFichierTest}.pub");
             string fichierPrivTest = Path.Combine(repertoireTest, $"{nomFichierTest}.priv");
-            
-            string contenuPub = $"---begin monECC public key---\n({generateur._Q.x};{generateur._Q.y})\n---end monECC key---";
+
+            string qStr = $"{generateur._Q.x};{generateur._Q.y}";
+            string qBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(qStr));
+            string contenuPub = $"---begin monECC public key---\n{qBase64}\n---end monECC key---";
             File.WriteAllText(fichierPubTest, contenuPub);
             
             byte[] kBytes = Encoding.UTF8.GetBytes(generateur._k.ToString());

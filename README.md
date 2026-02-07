@@ -15,7 +15,7 @@ monECC est une implémentation en C# d'un système de cryptographie à courbes e
 ### Compilation et exécution
 
 ```bash
-cd /Users/user/Documents/ECC
+cd /xxx/ECC
 dotnet build
 dotnet run
 ```

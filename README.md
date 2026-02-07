@@ -177,6 +177,7 @@ Le script :
 ECC/
 ├── Program.cs             # Point d'entrée et gestion des commandes
 ├── GenerationClef.cs      # Arithmétique des courbes elliptiques
+├── Point.cs               # Classe Point
 ├── TP-ECC.md              # Spécifications du projet
 ├── README.md              # Ce fichier
 ├── TEST_README.md         # Documentation des tests

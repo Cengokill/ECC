@@ -6,7 +6,7 @@ Programme de cryptographie basé sur les courbes elliptiques (ECC) en ligne de c
 
 monECC est une implémentation en C# d'un système de cryptographie à courbes elliptiques utilisant :
 - **Courbe elliptique** : y² = x³ + 35x + 3 (mod 101)
-- **Point générateur** : P = (2, 9)
+- **Point générateur** : P = (2, 9) (J'ai gardé le point (2,9))
 - **Chiffrement** : AES en mode CBC avec clé dérivée par SHA256
 - **Échange de clés** : Basé sur le principe de Diffie-Hellman sur courbe elliptique (ECDH)
 
